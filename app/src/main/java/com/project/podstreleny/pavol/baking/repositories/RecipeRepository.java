@@ -11,6 +11,9 @@ import com.project.podstreleny.pavol.baking.RateLimiter;
 import com.project.podstreleny.pavol.baking.db.BakingDatabase;
 import com.project.podstreleny.pavol.baking.db.dao.RecipeDao;
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
+import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
+import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
+import com.project.podstreleny.pavol.baking.model.IRecipe;
 import com.project.podstreleny.pavol.baking.service.BakingEndPoint;
 import com.project.podstreleny.pavol.baking.service.NetworkBoundResource;
 import com.project.podstreleny.pavol.baking.service.Resource;
@@ -60,10 +63,20 @@ public class RecipeRepository {
                 mDatabase.beginTransaction();
                 mRecipeDao.insertAllRecipies(item);
                 for (Recipe r : item){
+                    for (RecipeIngredients ingredients: r.getIngredients()){
+                        ingredients.setRecipeID(r.getId());
+                    }
+
+                    for(RecipeStep step : r.getSteps()){
+                        step.setRecipeID(r.getId());
+                    }
+
                     mRecipeDao.insertAllIngredients(r.getIngredients());
                     mRecipeDao.insertAllSteps(r.getSteps());
                 }
+
                 mDatabase.setTransactionSuccessful();
+                mDatabase.endTransaction();
             }
 
             @Override

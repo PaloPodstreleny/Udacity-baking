@@ -5,25 +5,29 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
 
 @Entity(tableName = "ingredients",
-        foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id",childColumns = "recipeID"),
-        indices = @Index("recipeID"))
+        foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id",childColumns = "recipe_id"),
+        indices = @Index("recipe_id"))
 public class RecipeIngredients {
 
-    private int quantity;
+    @PrimaryKey
+    private int id;
+
+    private float quantity;
     private String measure;
     private String ingredient;
 
     @ColumnInfo(name = "recipe_id")
     private int recipeID;
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
@@ -49,5 +53,13 @@ public class RecipeIngredients {
 
     public void setRecipeID(int recipeID) {
         this.recipeID = recipeID;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

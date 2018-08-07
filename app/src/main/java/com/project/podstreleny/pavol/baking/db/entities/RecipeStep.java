@@ -5,6 +5,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "recipe_step",
         foreignKeys = @ForeignKey(parentColumns = "id",childColumns = "recipe_id",entity = Recipe.class),
@@ -12,6 +13,7 @@ import android.arch.persistence.room.Index;
 )
 public class RecipeStep {
 
+    @PrimaryKey
     private int id;
     private String shortDescription;
     private String description;
