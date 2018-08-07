@@ -17,7 +17,7 @@ public abstract class BakingDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "baking_database";
     private static BakingDatabase INSTANCE;
 
-    public abstract RecipeDao movieDao();
+    public abstract RecipeDao recipeDao();
 
     public static BakingDatabase getDatabaseInstance(Application context) {
         if (INSTANCE == null) {

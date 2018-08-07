@@ -2,6 +2,8 @@ package com.project.podstreleny.pavol.baking.db.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
@@ -21,5 +23,15 @@ public interface RecipeDao {
 
     @Query("SELECT * FROM recipe_step WHERE recipe_id = :id ORDER BY id DESC")
     LiveData<List<RecipeStep>> getAllRecipesStepsByRecipeID(int id);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAllRecipies(List<Recipe> recipe);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAllIngredients(List<RecipeIngredients> ingredients);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAllSteps(List<RecipeStep> steps);
+
 
 }
