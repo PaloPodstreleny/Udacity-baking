@@ -12,7 +12,7 @@ public class RecipeMasterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipie_detail_master);
+        setContentView(R.layout.activity_recipe_master);
 
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){

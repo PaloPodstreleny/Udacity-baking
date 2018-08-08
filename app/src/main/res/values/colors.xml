@@ -6,4 +6,6 @@
 
     <color name="colorBackground">#eee</color>
     <color name="colorHorizontalDevider">#dddddd</color>
+
+    <color name="colorTabsTest">#ffffff</color>
 </resources>

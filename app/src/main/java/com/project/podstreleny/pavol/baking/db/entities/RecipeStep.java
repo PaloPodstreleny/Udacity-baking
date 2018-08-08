@@ -4,16 +4,19 @@ package com.project.podstreleny.pavol.baking.db.entities;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "recipe_step",
-        foreignKeys = @ForeignKey(parentColumns = "id",childColumns = "recipe_id",entity = Recipe.class),
+        foreignKeys = @ForeignKey(parentColumns = "id", childColumns = "recipe_id", entity = Recipe.class),
         indices = @Index("recipe_id")
 )
-public class RecipeStep {
+public class RecipeStep implements Parcelable {
 
 
     //Set fake_id to not catch id from json but create your own one
@@ -27,6 +30,56 @@ public class RecipeStep {
 
     @ColumnInfo(name = "recipe_id")
     private int recipeID;
+
+    @Ignore
+    protected RecipeStep(Parcel in) {
+        id = in.readInt();
+        shortDescription = in.readString();
+        description = in.readString();
+        videoURL = in.readString();
+        thumbnailURL = in.readString();
+        recipeID = in.readInt();
+    }
+
+    public RecipeStep(int id, String shortDescription, String description, String videoURL, String thumbnailURL, int recipeID) {
+        this.id = id;
+        this.shortDescription = shortDescription;
+        this.description = description;
+        this.videoURL = videoURL;
+        this.thumbnailURL = thumbnailURL;
+        this.recipeID = recipeID;
+    }
+
+    @Ignore
+    public static final Creator<RecipeStep> CREATOR = new Creator<RecipeStep>() {
+        @Override
+        public RecipeStep createFromParcel(Parcel in) {
+            return new RecipeStep(in);
+        }
+
+        @Override
+        public RecipeStep[] newArray(int size) {
+            return new RecipeStep[size];
+        }
+    };
+
+    @Ignore
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Ignore
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(shortDescription);
+        parcel.writeString(description);
+        parcel.writeString(videoURL);
+        parcel.writeString(thumbnailURL);
+        parcel.writeInt(recipeID);
+    }
+
 
     public int getId() {
         return id;

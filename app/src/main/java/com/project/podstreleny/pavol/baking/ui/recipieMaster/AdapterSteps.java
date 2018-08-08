@@ -11,6 +11,8 @@ import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,7 +21,24 @@ import butterknife.ButterKnife;
 public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.AdapterViewHolder> {
 
     private static final int OFFSET = 1;
-    private List<RecipeStep> mSteps;
+    private ArrayList<RecipeStep> mSteps;
+    private OnRecipeStepClickListener mListener;
+
+    public interface OnRecipeStepClickListener{
+        void onClick(RecipeStep recipeStep, int position);
+    }
+
+    public AdapterSteps(OnRecipeStepClickListener listener){
+        mListener = listener;
+    }
+
+    public ArrayList<RecipeStep> getSteps(){
+        return mSteps;
+    }
+
+    public boolean hasSteps(){
+        return mSteps.isEmpty();
+    }
 
     @NonNull
     @Override
@@ -43,12 +62,12 @@ public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.AdapterViewH
         return mSteps.size();
     }
 
-    public void swapData(List<RecipeStep> steps){
+    public void swapData(ArrayList<RecipeStep> steps){
         mSteps = steps;
         notifyDataSetChanged();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder{
+    public class AdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.step_tv)
         TextView mStepsTextView;
@@ -56,12 +75,19 @@ public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.AdapterViewH
         public AdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            mStepsTextView.setOnClickListener(this);
+
         }
 
         public void bind(int position){
             final RecipeStep step = mSteps.get(position);
             final String value = getAdapterPosition() + OFFSET +" "+ step.getShortDescription();
             mStepsTextView.setText(value);
+        }
+
+        @Override
+        public void onClick(View view) {
+            mListener.onClick(mSteps.get(getAdapterPosition()),getAdapterPosition());
         }
 
     }

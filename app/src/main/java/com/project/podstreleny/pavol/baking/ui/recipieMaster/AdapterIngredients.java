@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
+import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
 import java.util.List;
 
@@ -62,8 +63,6 @@ public class AdapterIngredients extends RecyclerView.Adapter<AdapterIngredients.
             final String value = ingredients.getQuantity() + " " + ingredients.getMeasure() + " of " + ingredients.getIngredient();
             mIngredientsTextView.setText(value);
         }
-
-
 
     }
 
