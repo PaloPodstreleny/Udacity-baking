@@ -13,7 +13,8 @@ import android.arch.persistence.room.PrimaryKey;
         indices = @Index("recipe_id"))
 public class RecipeIngredients {
 
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private float quantity;

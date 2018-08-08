@@ -3,6 +3,7 @@ package com.project.podstreleny.pavol.baking.ui.mainPage;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         final int SPAN_COUNT = getResources().getInteger(R.integer.span_count);
+
 
         mAdapter = new BasicRecipeDescriptionAdapter(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,SPAN_COUNT));
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeProgressBarVisibility(int visibility){
-        mProgressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(visibility);
     }
 
     private void changeRetryButtonVisibility(int visibility){

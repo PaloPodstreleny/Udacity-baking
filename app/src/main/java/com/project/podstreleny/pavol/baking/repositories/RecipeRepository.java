@@ -7,13 +7,11 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.project.podstreleny.pavol.baking.AppExecutor;
-import com.project.podstreleny.pavol.baking.RateLimiter;
 import com.project.podstreleny.pavol.baking.db.BakingDatabase;
 import com.project.podstreleny.pavol.baking.db.dao.RecipeDao;
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
-import com.project.podstreleny.pavol.baking.model.IRecipe;
 import com.project.podstreleny.pavol.baking.service.BakingEndPoint;
 import com.project.podstreleny.pavol.baking.service.NetworkBoundResource;
 import com.project.podstreleny.pavol.baking.service.Resource;
@@ -21,7 +19,6 @@ import com.project.podstreleny.pavol.baking.service.responses.ApiResponse;
 import com.project.podstreleny.pavol.baking.service.retrofit.RetrofitProvider;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RecipeRepository {
 
@@ -32,7 +29,6 @@ public class RecipeRepository {
     private RecipeDao mRecipeDao;
     private BakingEndPoint mBakingEndpoint;
     private AppExecutor mExecutor;
-    private RateLimiter<String > mRateLimiter = new RateLimiter<>(1, TimeUnit.HOURS);
 
     private RecipeRepository(BakingDatabase database, BakingEndPoint bakingEndPoint, AppExecutor executor){
         mDatabase = database;
@@ -55,7 +51,6 @@ public class RecipeRepository {
     }
 
     public LiveData<Resource<List<Recipe>>> getRecepies(){
-        final String recipeFetch = "recepie_fetch";
 
         return new NetworkBoundResource<List<Recipe>,List<Recipe>>(mExecutor){
             @Override
@@ -63,11 +58,12 @@ public class RecipeRepository {
                 mDatabase.beginTransaction();
                 mRecipeDao.insertAllRecipies(item);
                 for (Recipe r : item){
-                    for (RecipeIngredients ingredients: r.getIngredients()){
+
+                    for (RecipeIngredients ingredients : r.getIngredients()){
                         ingredients.setRecipeID(r.getId());
                     }
 
-                    for(RecipeStep step : r.getSteps()){
+                    for (RecipeStep step : r.getSteps()){
                         step.setRecipeID(r.getId());
                     }
 
@@ -81,7 +77,7 @@ public class RecipeRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<Recipe> data) {
-               return  (data == null || data.isEmpty() || mRateLimiter.shouldFetch(recipeFetch));
+               return  (data == null || data.isEmpty());
             }
 
             @NonNull
@@ -99,7 +95,6 @@ public class RecipeRepository {
             @Override
             protected void onFetchFailed() {
                 Log.e(LOG,"Problem with fetching data!");
-                mRateLimiter.reset(recipeFetch);
             }
 
 

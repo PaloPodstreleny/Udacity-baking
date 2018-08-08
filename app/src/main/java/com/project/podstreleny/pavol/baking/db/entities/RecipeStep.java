@@ -7,13 +7,18 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "recipe_step",
         foreignKeys = @ForeignKey(parentColumns = "id",childColumns = "recipe_id",entity = Recipe.class),
         indices = @Index("recipe_id")
 )
 public class RecipeStep {
 
-    @PrimaryKey
+
+    //Set fake_id to not catch id from json but create your own one
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("fake_id")
     private int id;
     private String shortDescription;
     private String description;

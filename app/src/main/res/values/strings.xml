@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Baking</string>
+
     <string name="btn_retry">Retry</string>
+
     <string name="no_internet_connection">No internet connection, try to connect to internet and retry.</string>
+
+
+    <string name="ui.recipe.master.ingredients">Ingredients</string>
+    <string name="ui.recipe.master.steps">Follow steps</string>
 </resources>

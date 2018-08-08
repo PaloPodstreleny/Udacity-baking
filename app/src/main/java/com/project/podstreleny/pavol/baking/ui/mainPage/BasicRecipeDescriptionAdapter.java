@@ -1,6 +1,7 @@
 package com.project.podstreleny.pavol.baking.ui.mainPage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
-import com.project.podstreleny.pavol.baking.model.IRecipe;
+import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeMasterActivity;
 
 import java.util.List;
 
@@ -80,7 +81,10 @@ public class BasicRecipeDescriptionAdapter extends RecyclerView.Adapter<BasicRec
 
         @Override
         public void onClick(View view) {
-            //TODO do something
+            Intent intent = new Intent(context,RecipeMasterActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT,mRecipies.get(getAdapterPosition()).getId());
+            context.startActivity(intent);
+
         }
 
         public void bind(int position){
