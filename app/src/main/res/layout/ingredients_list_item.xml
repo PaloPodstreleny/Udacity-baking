@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/ingredients_summary_tv"
-    />
+    android:paddingLeft="@dimen/inner_padding_medium"
+    android:paddingRight="@dimen/inner_padding_medium"
+    android:paddingTop="@dimen/inner_padding_small"
+    android:paddingBottom="@dimen/inner_padding_small"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_done"
+        />
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_margin_small"
+        android:layout_gravity="center"
+        android:id="@+id/ingredients_summary_tv"
+        tools:text="Hello kitty"
+        />
+
+</LinearLayout>

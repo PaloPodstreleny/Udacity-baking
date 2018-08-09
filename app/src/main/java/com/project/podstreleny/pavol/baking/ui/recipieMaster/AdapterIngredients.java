@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
-import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class AdapterIngredients extends RecyclerView.Adapter<AdapterIngredients.
     @NonNull
     @Override
     public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredients_list_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredients_list_item, parent, false);
         return new IngredientsViewHolder(view);
     }
 
@@ -37,28 +36,28 @@ public class AdapterIngredients extends RecyclerView.Adapter<AdapterIngredients.
 
     @Override
     public int getItemCount() {
-        if(mIngredients == null){
+        if (mIngredients == null) {
             return 0;
         }
         return mIngredients.size();
     }
 
-    public void swapData(List<RecipeIngredients> ingredients){
+    public void swapData(List<RecipeIngredients> ingredients) {
         mIngredients = ingredients;
         notifyDataSetChanged();
     }
 
-    public class IngredientsViewHolder extends RecyclerView.ViewHolder{
+    public class IngredientsViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ingredients_summary_tv)
         TextView mIngredientsTextView;
 
         public IngredientsViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
-        public void bind(int position){
+        public void bind(int position) {
             final RecipeIngredients ingredients = mIngredients.get(position);
             final String value = ingredients.getQuantity() + " " + ingredients.getMeasure() + " of " + ingredients.getIngredient();
             mIngredientsTextView.setText(value);

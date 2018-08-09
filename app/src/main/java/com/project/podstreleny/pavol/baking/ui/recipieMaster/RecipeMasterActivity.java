@@ -12,36 +12,37 @@ import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 
 public class RecipeMasterActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_master);
 
         Intent intent = getIntent();
-        if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-            int value = intent.getIntExtra(Intent.EXTRA_TEXT,-1);
-            if(value == -1){
+        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            int value = intent.getIntExtra(Intent.EXTRA_TEXT, -1);
+            if (value == -1) {
                 return;
             }
 
+            //Load detail fragment which is part of master-detail layout
             FrameLayout frameLayout = findViewById(R.id.fragmentDetail);
-
-
 
             final FragmentManager manager = getSupportFragmentManager();
             final RecipeMasterFragment fragment = new RecipeMasterFragment();
             final Bundle bundle = new Bundle();
-            bundle.putInt("ID",value);
-            if(frameLayout != null){
-                bundle.putBoolean(BundleHelper.TABLE_VERSION,true);
+            bundle.putInt(BundleHelper.RECIPE_ID, value);
+
+            //If there is master-detail layout
+            if (frameLayout != null) {
+                bundle.putBoolean(BundleHelper.TABLE_VERSION, true);
             }
             fragment.setArguments(bundle);
-            manager.beginTransaction().replace(R.id.fragmetMaster,fragment).commit();
+            manager.beginTransaction().replace(R.id.fragmetMaster, fragment).commit();
 
-            if(frameLayout != null){
+            //If there is a master-detail layout
+            if (frameLayout != null) {
                 RecipeDetailFragment detailFragment = new RecipeDetailFragment();
-                manager.beginTransaction().replace(R.id.fragmentDetail,detailFragment).commit();
+                manager.beginTransaction().replace(R.id.fragmentDetail, detailFragment).commit();
             }
 
 

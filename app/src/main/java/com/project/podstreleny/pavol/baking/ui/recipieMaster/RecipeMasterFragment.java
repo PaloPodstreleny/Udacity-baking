@@ -46,20 +46,24 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_master,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_recipe_master, container, false);
+        ButterKnife.bind(this, view);
 
         //Get data from saveInstanceState -- rotation on Tablet
-        if(savedInstanceState != null && savedInstanceState.containsKey(BundleHelper.ACTUAL_POSITION)){
+        if (savedInstanceState != null && savedInstanceState.containsKey(BundleHelper.ACTUAL_POSITION)) {
             mPosition = savedInstanceState.getInt(BundleHelper.ACTUAL_POSITION);
         }
 
-        movieID = getArguments().getInt("ID");
-        if(getArguments().containsKey(BundleHelper.TABLE_VERSION)){
-            isMobile = false;
-        }else{
-            isMobile = true;
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
+            movieID = getArguments().getInt(BundleHelper.RECIPE_ID);
+            if (bundle.containsKey(BundleHelper.TABLE_VERSION)) {
+                isMobile = false;
+            } else {
+                isMobile = true;
+            }
         }
+
         return view;
     }
 
@@ -79,19 +83,15 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
 
         viewModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
 
-
-
-        if(movieID != null){
+        if (movieID != null) {
             viewModel.setMovieID(movieID);
         }
 
         viewModel.ingredients.observe(this, new Observer<List<RecipeIngredients>>() {
             @Override
             public void onChanged(@Nullable List<RecipeIngredients> ingredients) {
-                if (ingredients != null && !ingredients.isEmpty()){
+                if (ingredients != null && !ingredients.isEmpty()) {
                     mAdapterIngredients.swapData(ingredients);
-                }else {
-                    //No ingrediets
                 }
             }
         });
@@ -99,13 +99,11 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
         viewModel.steps.observe(getActivity(), new Observer<List<RecipeStep>>() {
             @Override
             public void onChanged(@Nullable List<RecipeStep> recipeSteps) {
-                if (recipeSteps != null && !recipeSteps.isEmpty()){
+                if (recipeSteps != null && !recipeSteps.isEmpty()) {
                     mAdapterSteps.swapData((ArrayList) recipeSteps);
-                    if (!isMobile && mPosition != null){
+                    if (!isMobile && mPosition != null) {
                         viewModel.setActualStep(recipeSteps.get(mPosition));
                     }
-                }else {
-                    //No igredients
                 }
             }
         });
@@ -115,24 +113,24 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
     @Override
     public void onClick(RecipeStep recipeStep, int position) {
         mPosition = position;
-        if(isMobile) {
+        if (isMobile) {
             //Code for mobile version
-            Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
-            Bundle bundle = new Bundle();
+            final Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
+            final Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(BundleHelper.LIST_OF_STEPS, mAdapterSteps.getSteps());
             bundle.putInt(BundleHelper.ACTUAL_POSITION, position);
             intent.putExtra(Intent.EXTRA_TEXT, bundle);
             startActivity(intent);
-        }else {
+        } else {
+            //Code for table version
             viewModel.setActualStep(recipeStep);
         }
 
     }
 
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if(!isMobile && mPosition != null) {
+        if (!isMobile && mPosition != null) {
             outState.putInt(BundleHelper.ACTUAL_POSITION, mPosition);
         }
         super.onSaveInstanceState(outState);
