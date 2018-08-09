@@ -18,6 +18,7 @@ import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeDetailActivity;
 import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeDetailFragment;
+import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 import com.project.podstreleny.pavol.baking.viewModels.RecipeDetailViewModel;
 
 import java.util.ArrayList;
@@ -111,8 +112,8 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
         //Code for mobile version
         Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(Intent.EXTRA_TEXT,mAdapterSteps.getSteps());
-        bundle.putInt("MOVETOPOSITION",position);
+        bundle.putParcelableArrayList(BundleHelper.LIST_OF_STEPS,mAdapterSteps.getSteps());
+        bundle.putInt(BundleHelper.ACTUAL_POSITION,position);
         intent.putExtra(Intent.EXTRA_TEXT,bundle);
         startActivity(intent);
 

@@ -7,8 +7,10 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -80,7 +82,22 @@ public class RecipeStep implements Parcelable {
         parcel.writeInt(recipeID);
     }
 
+    @Ignore
+    public boolean hasVideoURL(){
+        return videoURL.length() > 1;
+    }
 
+    @Ignore
+    public boolean hasImage(){
+        return thumbnailURL.length() > 1;
+    }
+
+    @Ignore
+    public Uri getVideoUri(){
+        return Uri.parse(videoURL);
+    }
+
+    @NonNull
     public int getId() {
         return id;
     }

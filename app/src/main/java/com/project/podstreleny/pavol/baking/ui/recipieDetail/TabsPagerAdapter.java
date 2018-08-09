@@ -6,12 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
 import java.util.List;
 
-public class TabsPagerAdapter extends FragmentPagerAdapter {
+public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final String STEP = "Step";
     private static final int OFFSET = 1;
@@ -40,7 +41,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return STEP + position + OFFSET;
+        return STEP + "" +(position + OFFSET);
     }
 
     /**

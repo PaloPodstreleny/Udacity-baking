@@ -21,7 +21,7 @@ public interface RecipeDao {
     @Query("SELECT * FROM ingredients WHERE recipe_id = :id")
     LiveData<List<RecipeIngredients>> getAllIngredientsByRecipeID(int id);
 
-    @Query("SELECT * FROM recipe_step WHERE recipe_id = :id ORDER BY id DESC")
+    @Query("SELECT * FROM recipe_step WHERE recipe_id = :id ORDER BY id")
     LiveData<List<RecipeStep>> getAllRecipesStepsByRecipeID(int id);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

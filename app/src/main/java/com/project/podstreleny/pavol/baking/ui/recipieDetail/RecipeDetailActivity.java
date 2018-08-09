@@ -8,22 +8,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.project.podstreleny.pavol.baking.R;
-import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
+import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
-
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
+
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +30,26 @@ public class RecipeDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-            Bundle bundle  = intent.getBundleExtra(Intent.EXTRA_TEXT);
-            ArrayList<RecipeStep> list = bundle.getParcelableArrayList(Intent.EXTRA_TEXT);
-            PagerAdapter pagerAdapter = new TabsPagerAdapter(getSupportFragmentManager(),list);
+        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            Bundle bundle = intent.getBundleExtra(Intent.EXTRA_TEXT);
+
+
+            final int position = bundle.getInt(BundleHelper.ACTUAL_POSITION);
+            final ArrayList<RecipeStep> list = bundle.getParcelableArrayList(BundleHelper.LIST_OF_STEPS);
+
+
+            PagerAdapter pagerAdapter = new TabsPagerAdapter(getSupportFragmentManager(), list);
             mViewPager.setAdapter(pagerAdapter);
-            mTabLayout.setupWithViewPager(mViewPager);
+            mViewPager.setCurrentItem(position);
+
+            //Load by findViewByID because of checking landscape layout
+            mTabLayout = findViewById(R.id.tab_layout);
+
+            //Check if tablayout exists
+            if (mTabLayout != null) {
+                mTabLayout.setupWithViewPager(mViewPager);
+            }
         }
-
-
-
-
-
 
 
     }
