@@ -17,7 +17,6 @@ import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeDetailActivity;
-import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeDetailFragment;
 import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 import com.project.podstreleny.pavol.baking.viewModels.RecipeDetailViewModel;
 
@@ -40,13 +39,27 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
     private Integer movieID;
     private RecipeDetailViewModel viewModel;
 
+    private boolean isMobile = true;
+    private Integer mPosition;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_detail_master,container,false);
+        View view = inflater.inflate(R.layout.fragment_recipe_master,container,false);
         ButterKnife.bind(this,view);
+
+        //Get data from saveInstanceState -- rotation on Tablet
+        if(savedInstanceState != null && savedInstanceState.containsKey(BundleHelper.ACTUAL_POSITION)){
+            mPosition = savedInstanceState.getInt(BundleHelper.ACTUAL_POSITION);
+        }
+
         movieID = getArguments().getInt("ID");
+        if(getArguments().containsKey(BundleHelper.TABLE_VERSION)){
+            isMobile = false;
+        }else{
+            isMobile = true;
+        }
         return view;
     }
 
@@ -64,7 +77,9 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
         mRecyclerViewSteps.setHasFixedSize(true);
         mRecyclerViewSteps.setAdapter(mAdapterSteps);
 
-        viewModel = ViewModelProviders.of(this).get(RecipeDetailViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
+
+
 
         if(movieID != null){
             viewModel.setMovieID(movieID);
@@ -81,11 +96,14 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
             }
         });
 
-        viewModel.steps.observe(this, new Observer<List<RecipeStep>>() {
+        viewModel.steps.observe(getActivity(), new Observer<List<RecipeStep>>() {
             @Override
             public void onChanged(@Nullable List<RecipeStep> recipeSteps) {
                 if (recipeSteps != null && !recipeSteps.isEmpty()){
                     mAdapterSteps.swapData((ArrayList) recipeSteps);
+                    if (!isMobile && mPosition != null){
+                        viewModel.setActualStep(recipeSteps.get(mPosition));
+                    }
                 }else {
                     //No igredients
                 }
@@ -96,28 +114,28 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
 
     @Override
     public void onClick(RecipeStep recipeStep, int position) {
-
-        //TODO Check if it's mobile
-//        if(viewModel != null){
-//            viewModel.setActualStep(recipeStep);
-//
-//            Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelableArrayList(Intent.EXTRA_TEXT,mAdapterSteps.getSteps());
-//            intent.putExtra()
-//            startActivity(intent);
-//
-//        }
-
-        //Code for mobile version
-        Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(BundleHelper.LIST_OF_STEPS,mAdapterSteps.getSteps());
-        bundle.putInt(BundleHelper.ACTUAL_POSITION,position);
-        intent.putExtra(Intent.EXTRA_TEXT,bundle);
-        startActivity(intent);
+        mPosition = position;
+        if(isMobile) {
+            //Code for mobile version
+            Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(BundleHelper.LIST_OF_STEPS, mAdapterSteps.getSteps());
+            bundle.putInt(BundleHelper.ACTUAL_POSITION, position);
+            intent.putExtra(Intent.EXTRA_TEXT, bundle);
+            startActivity(intent);
+        }else {
+            viewModel.setActualStep(recipeStep);
+        }
 
     }
 
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if(!isMobile && mPosition != null) {
+            outState.putInt(BundleHelper.ACTUAL_POSITION, mPosition);
+        }
+        super.onSaveInstanceState(outState);
+
+    }
 }

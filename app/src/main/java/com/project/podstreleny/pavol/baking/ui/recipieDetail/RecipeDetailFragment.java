@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,30 +57,57 @@ public class RecipeDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
         ButterKnife.bind(this, view);
+
+        final Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(Intent.EXTRA_TEXT)) {
+            isMobile = true;
+        }else {
+            isMobile = false;
+        }
+
         return view;
     }
 
-
+    /**
+     * Called when the fragment's activity has been created and this
+     * fragment's view hierarchy instantiated.  It can be used to do final
+     * initialization once these pieces are in place, such as retrieving
+     * views or restoring state.  It is also useful for fragments that use
+     * {@link #setRetainInstance(boolean)} to retain their instance,
+     * as this callback tells the fragment when it is fully associated with
+     * the new activity instance.  This is called after {@link #onCreateView}
+     * and before {@link #onViewStateRestored(Bundle)}.
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     *                           a previous saved state, this is the state.
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         //Check if Fragment contains some arguments -- Arguments are sut just when we are using mobile version of app
         if (!isMobile) {
             // Table version
-            final RecipeDetailViewModel viewModel = ViewModelProviders.of(this).get(RecipeDetailViewModel.class);
+
+            final RecipeDetailViewModel viewModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
             viewModel.getActualRecipeStep().observe(this, new Observer<RecipeStep>() {
                 @Override
-                public void onChanged(@Nullable RecipeStep recipeStep) {
-                    if (recipeStep != null) {
-                        Log.v(RecipeDetailFragment.class.getSimpleName(), "Everything is good +" + recipeStep.getShortDescription());
+                public void onChanged(@Nullable RecipeStep step) {
+                    if (step != null) {
+                        setDescriptionView(step.getDescription());
+                        if (step.hasVideoURL()) {
+                            initializeExoPlayer(step.getVideoUri());
+                        } else if (step.hasImage()) {
+                            showThumbnail(step.getThumbnailURL());
+                        } else {
+                            hideImageAndPlayer();
+                        }
+
                     }
                 }
             });
         }
-
-
     }
+
 
     private void hideImageAndPlayer() {
         mPlayerView.setVisibility(View.GONE);
@@ -113,6 +139,9 @@ public class RecipeDetailFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
             mExoPlayer.prepare(mediaSource, true, false);
 
+        }else {
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
+            mExoPlayer.prepare(mediaSource, true, false);
         }
     }
 
@@ -168,7 +197,6 @@ public class RecipeDetailFragment extends Fragment {
         if (getArguments() != null) {
             final Bundle bundle = getArguments();
             if (bundle.containsKey(Intent.EXTRA_TEXT)) {
-                isMobile = true;
                 final RecipeStep step = bundle.getParcelable(Intent.EXTRA_TEXT);
                 if (step != null) {
                     setDescriptionView(step.getDescription());
@@ -181,8 +209,6 @@ public class RecipeDetailFragment extends Fragment {
                     }
 
                 }
-            } else {
-                isMobile = false;
             }
         }
     }
