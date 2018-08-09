@@ -1,4 +1,4 @@
-package com.project.podstreleny.pavol.baking.ui.mainPage;
+package com.project.podstreleny.pavol.baking.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -94,7 +94,7 @@ public class BasicRecipeDescriptionAdapter extends RecyclerView.Adapter<BasicRec
             }
 
             mRecipeTextView.setText(recipe.getName());
-            mRecipeServingsTextView.setText(String.valueOf(recipe.getServings()));
+            mRecipeServingsTextView.setText(context.getString(R.string.ui_recipe_main_servings, String.valueOf(recipe.getServings())));
 
         }
     }

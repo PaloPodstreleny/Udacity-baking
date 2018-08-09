@@ -8,4 +8,6 @@
     <color name="colorHorizontalDevider">#dddddd</color>
 
     <color name="colorTabsTest">#ffffff</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
 </resources>

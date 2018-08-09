@@ -8,4 +8,7 @@
 
     <string name="ui.recipe.master.ingredients">Ingredients</string>
     <string name="ui.recipe.master.steps">Follow steps</string>
+
+
+    <string name="ui.recipe.main.servings"> %1$s portions</string>
 </resources>

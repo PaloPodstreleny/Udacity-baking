@@ -41,7 +41,7 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return STEP + "" +(position + OFFSET);
+        return STEP + " " +(position + OFFSET);
     }
 
     /**
