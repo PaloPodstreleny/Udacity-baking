@@ -12,7 +12,7 @@
     <View
         android:layout_width="@dimen/vertical_line"
         android:layout_height="0dp"
-        android:background="@color/colorGreen"
+        android:background="@color/colorBLue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/number_step_tv"
         app:layout_constraintRight_toRightOf="@id/number_step_tv"

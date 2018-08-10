@@ -5,8 +5,8 @@
     >
 
     <gradient
-        android:startColor="@color/colorGreen"
-        android:endColor="@color/colorGreenMore"/>
+        android:startColor="@color/colorBLue"
+        android:endColor="@color/colorBlueLighter"/>
     <size
         android:width="@dimen/circle_size"
         android:height="@dimen/circle_size"

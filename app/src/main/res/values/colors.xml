@@ -14,4 +14,6 @@
     <color name="colorGreen">#2E7D32</color>
     <color name="colorGreenMore">#1B5E20</color>
     <color name="colorWhite">#FFF</color>
+    <color name="colorBLue">#304FFE</color>
+    <color name="colorBlueLighter">#3D5AFE</color>
 </resources>
