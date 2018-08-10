@@ -33,10 +33,6 @@ public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.AdapterViewH
         return mSteps;
     }
 
-    public boolean hasSteps() {
-        return mSteps.isEmpty();
-    }
-
     @NonNull
     @Override
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
