@@ -16,4 +16,6 @@
     <color name="colorWhite">#FFF</color>
     <color name="colorBLue">#304FFE</color>
     <color name="colorBlueLighter">#3D5AFE</color>
+
+    <color name="colorBackgroundDetailFragment">#eee</color>
 </resources>

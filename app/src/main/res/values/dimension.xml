@@ -9,4 +9,6 @@
     <dimen name="circle_size">36dp</dimen>
     <dimen name="circle_corners">18dp</dimen>
     <dimen name="vertical_line">2dp</dimen>
+    <dimen name="max_detail_screen_width">700dp</dimen>
+    <dimen name="icon_small_size">24dp</dimen>
 </resources>

@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 public class RecipeDetailFragment extends Fragment {
 
     private static final String USER_AGENT = "recipe";
-    private static final String LOG = RecipeDetailFragment.class.getSimpleName();
 
     @BindView(R.id.playerView)
     PlayerView mPlayerView;
@@ -61,26 +60,13 @@ public class RecipeDetailFragment extends Fragment {
         final Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(Intent.EXTRA_TEXT)) {
             isMobile = true;
-        }else {
+        } else {
             isMobile = false;
         }
 
         return view;
     }
 
-    /**
-     * Called when the fragment's activity has been created and this
-     * fragment's view hierarchy instantiated.  It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.  It is also useful for fragments that use
-     * {@link #setRetainInstance(boolean)} to retain their instance,
-     * as this callback tells the fragment when it is fully associated with
-     * the new activity instance.  This is called after {@link #onCreateView}
-     * and before {@link #onViewStateRestored(Bundle)}.
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
-     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -139,7 +125,7 @@ public class RecipeDetailFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
             mExoPlayer.prepare(mediaSource, true, false);
 
-        }else {
+        } else {
             MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
             mExoPlayer.prepare(mediaSource, true, false);
         }
@@ -193,9 +179,8 @@ public class RecipeDetailFragment extends Fragment {
 
 
     private void getDataAndInitPlayer() {
-
-        if (getArguments() != null) {
-            final Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
             if (bundle.containsKey(Intent.EXTRA_TEXT)) {
                 final RecipeStep step = bundle.getParcelable(Intent.EXTRA_TEXT);
                 if (step != null) {
