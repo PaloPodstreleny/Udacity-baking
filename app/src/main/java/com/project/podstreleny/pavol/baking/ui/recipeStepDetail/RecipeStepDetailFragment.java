@@ -56,6 +56,7 @@ public class RecipeStepDetailFragment extends Fragment {
     private int mRecipeWindow;
     private long mRecipeSeek;
     private RecipeStep mStep;
+    private RecipeDetailViewModel viewModel;
 
     @Nullable
     @Override
@@ -70,6 +71,7 @@ public class RecipeStepDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         final boolean isMobile;
+        viewModel = ViewModelProviders.of(getActivity(), factory).get(RecipeDetailViewModel.class);
 
         final Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(Intent.EXTRA_TEXT)) {
@@ -86,12 +88,12 @@ public class RecipeStepDetailFragment extends Fragment {
                 ) {
             mRecipeWindow = savedInstanceState.getInt(RECIPE_VIDEO_WIND0W);
             mRecipeSeek = savedInstanceState.getLong(RECIPE_VIDEO_SEEK);
+            viewModel.setInitialRecipeSeek(mRecipeSeek);
 
         }
 
         //Check if there is tablet version
         if (!isMobile) {
-            final RecipeDetailViewModel viewModel = ViewModelProviders.of(getActivity(), factory).get(RecipeDetailViewModel.class);
             viewModel.getActualRecipeStep().observe(this, new Observer<RecipeStep>() {
                 @Override
                 public void onChanged(@Nullable RecipeStep step) {
