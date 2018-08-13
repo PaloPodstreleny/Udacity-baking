@@ -112,7 +112,7 @@ public class RecipeRepository {
     }
 
 
-    public void setActualRecipe(final Recipe recipe){
+    public void updateRecipeTimeStamp(final Recipe recipe){
         mExecutor.diskIO().execute(new Runnable() {
             @Override
             public void run() {

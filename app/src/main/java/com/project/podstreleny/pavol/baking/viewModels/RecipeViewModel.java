@@ -32,8 +32,8 @@ public class RecipeViewModel extends AndroidViewModel {
         }
     });
 
-    public void updateActuallyLookingRecipe(Recipe recipe){
-        mRepository.setActualRecipe(recipe);
+    public void updateRecipeTimeStamp(Recipe recipe){
+        mRepository.updateRecipeTimeStamp(recipe);
     }
 
     public RecipeViewModel(@NonNull Application application) {
@@ -45,7 +45,7 @@ public class RecipeViewModel extends AndroidViewModel {
         fetcher.setValue(false);
     }
 
-    public void reFatchData(){
+    public void reFetchData(){
         fetcher.setValue(true);
     }
 

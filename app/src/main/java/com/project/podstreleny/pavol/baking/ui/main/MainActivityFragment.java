@@ -108,7 +108,7 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.OnRe
         mRetryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.reFatchData();
+                viewModel.reFetchData();
             }
         });
     }
@@ -149,8 +149,8 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.OnRe
     }
 
     @Override
-    public void onClick(Recipe recipe) {
-        viewModel.updateActuallyLookingRecipe(recipe);
+    public void onClick(@NonNull Recipe recipe) {
+        viewModel.updateRecipeTimeStamp(recipe);
         Intent intent = new Intent(getActivity(), RecipeMasterActivity.class);
         intent.putExtra(BundleHelper.RECIPE_ID, recipe.getId());
         startActivity(intent);

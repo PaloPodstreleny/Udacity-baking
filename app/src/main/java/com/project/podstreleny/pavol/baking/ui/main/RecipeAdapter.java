@@ -32,7 +32,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public interface OnRecipeClickListener{
-        void onClick(Recipe recipe);
+        void onClick(@NonNull Recipe recipe);
     }
 
     @NonNull
@@ -85,7 +85,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         @Override
         public void onClick(View view) {
-            listener.onClick(mRecipies.get(getAdapterPosition()));
+            final Recipe recipe = mRecipies.get(getAdapterPosition());
+            if (recipe != null) {
+                listener.onClick(recipe);
+            }
         }
 
         public void bind(int position){
