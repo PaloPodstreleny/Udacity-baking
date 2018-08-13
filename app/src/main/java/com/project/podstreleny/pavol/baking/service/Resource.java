@@ -28,8 +28,8 @@ public class Resource<T> {
         return new Resource<>(Status.ERROR, data, msg);
     }
 
-    public static <T> Resource<T> loading(Object data){
-        return new Resource<>(Status.LOADING,null,null);
+    public static <T> Resource<T> loading(T data){
+        return new Resource<>(Status.LOADING,data,null);
     }
 
     @NonNull

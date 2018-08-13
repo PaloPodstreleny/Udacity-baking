@@ -18,8 +18,8 @@ public class RecipeMasterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_master);
 
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            int value = intent.getIntExtra(Intent.EXTRA_TEXT, -1);
+        if ((intent != null && intent.hasExtra(BundleHelper.RECIPE_ID))) {
+            int value = intent.getIntExtra(BundleHelper.RECIPE_ID, -1);
             if (value == -1) {
                 return;
             }

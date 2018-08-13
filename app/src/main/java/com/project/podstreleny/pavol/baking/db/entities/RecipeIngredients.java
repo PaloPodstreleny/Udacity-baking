@@ -1,9 +1,8 @@
 package com.project.podstreleny.pavol.baking.db.entities;
-
-
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -23,6 +22,25 @@ public class RecipeIngredients {
 
     @ColumnInfo(name = "recipe_id")
     private int recipeID;
+
+
+    public RecipeIngredients(){
+
+    }
+
+    @Ignore
+    public RecipeIngredients(int id, float quantity, String measure, String ingredient, int recipeID) {
+        this.id = id;
+        this.quantity = quantity;
+        this.measure = measure;
+        this.ingredient = ingredient;
+        this.recipeID = recipeID;
+    }
+
+    @Ignore
+    public String getIngredientSummary(){
+        return ""+getQuantity()+" "+getMeasure()+" of " + getIngredient();
+    }
 
     public float getQuantity() {
         return quantity;

@@ -1,11 +1,13 @@
 package com.project.podstreleny.pavol.baking.ui.recipieMaster;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
 
     private boolean isMobile = true;
     private Integer mPosition;
+    private ViewModelProvider.Factory factory;
 
 
     @Nullable
@@ -81,22 +84,25 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
         mRecyclerViewSteps.setHasFixedSize(true);
         mRecyclerViewSteps.setAdapter(mAdapterSteps);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity(),factory).get(RecipeDetailViewModel.class);
+
 
         if (movieID != null) {
             viewModel.setMovieID(movieID);
         }
 
-        viewModel.ingredients.observe(this, new Observer<List<RecipeIngredients>>() {
+        viewModel.getIngredients().observe(this, new Observer<List<RecipeIngredients>>() {
             @Override
             public void onChanged(@Nullable List<RecipeIngredients> ingredients) {
                 if (ingredients != null && !ingredients.isEmpty()) {
                     mAdapterIngredients.swapData(ingredients);
+                }else {
+                    mRecyclerViewIngredients.setVisibility(View.GONE);
                 }
             }
         });
 
-        viewModel.steps.observe(getActivity(), new Observer<List<RecipeStep>>() {
+        viewModel.getSteps().observe(getActivity(), new Observer<List<RecipeStep>>() {
             @Override
             public void onChanged(@Nullable List<RecipeStep> recipeSteps) {
                 if (recipeSteps != null && !recipeSteps.isEmpty()) {
@@ -104,6 +110,8 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
                     if (!isMobile && mPosition != null) {
                         viewModel.setActualStep(recipeSteps.get(mPosition));
                     }
+                }else {
+                    mRecyclerViewSteps.setVisibility(View.GONE);
                 }
             }
         });
@@ -135,5 +143,10 @@ public class RecipeMasterFragment extends Fragment implements AdapterSteps.OnRec
         }
         super.onSaveInstanceState(outState);
 
+    }
+
+    @VisibleForTesting
+    public void setFactory(ViewModelProvider.Factory factory){
+        this.factory = factory;
     }
 }

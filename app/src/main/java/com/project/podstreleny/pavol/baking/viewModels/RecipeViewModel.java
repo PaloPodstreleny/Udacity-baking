@@ -9,7 +9,6 @@ import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
-import com.project.podstreleny.pavol.baking.model.IRecipe;
 import com.project.podstreleny.pavol.baking.repositories.RecipeRepository;
 import com.project.podstreleny.pavol.baking.service.Resource;
 
@@ -33,6 +32,9 @@ public class RecipeViewModel extends AndroidViewModel {
         }
     });
 
+    public void updateActuallyLookingRecipe(Recipe recipe){
+        mRepository.setActualRecipe(recipe);
+    }
 
     public RecipeViewModel(@NonNull Application application) {
         super(application);
@@ -45,6 +47,10 @@ public class RecipeViewModel extends AndroidViewModel {
 
     public void reFatchData(){
         fetcher.setValue(true);
+    }
+
+    public LiveData<Resource<List<Recipe>>> getRecipes(){
+        return recipes;
     }
 
 

@@ -2,8 +2,11 @@ package com.project.podstreleny.pavol.baking.repositories;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+
+import com.project.podstreleny.pavol.baking.AppExecutor;
 import com.project.podstreleny.pavol.baking.db.BakingDatabase;
 import com.project.podstreleny.pavol.baking.db.dao.RecipeDao;
+import com.project.podstreleny.pavol.baking.db.entities.Recipe;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
@@ -38,6 +41,7 @@ public class RecipeDetailRepository {
     public LiveData<List<RecipeStep>> getRecipeStepsByRecipeID(int id){
         return mRecipeDao.getAllRecipesStepsByRecipeID(id);
     }
+
 
 
 }

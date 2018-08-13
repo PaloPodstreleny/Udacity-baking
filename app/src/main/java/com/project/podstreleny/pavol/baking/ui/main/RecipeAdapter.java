@@ -1,7 +1,6 @@
 package com.project.podstreleny.pavol.baking.ui.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,33 +13,38 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
-import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeMasterActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BasicRecipeDescriptionAdapter extends RecyclerView.Adapter<BasicRecipeDescriptionAdapter.RecipieViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
 
     private final Context context;
     private List<Recipe> mRecipies;
+    private OnRecipeClickListener listener;
     
-    public BasicRecipeDescriptionAdapter(Context context){
+    public RecipeAdapter(Context context, OnRecipeClickListener listener){
         this.context = context;
+        this.listener = listener;
+    }
+
+    public interface OnRecipeClickListener{
+        void onClick(Recipe recipe);
     }
 
     @NonNull
     @Override
-    public RecipieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.basic_recipie_list_item,parent,false);
-        return new RecipieViewHolder(view);
+        return new RecipeViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecipieViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         holder.bind(position);
     }
 
@@ -58,13 +62,13 @@ public class BasicRecipeDescriptionAdapter extends RecyclerView.Adapter<BasicRec
         notifyDataSetChanged();
     }
 
-    public class RecipieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.main_layout_cv)
         CardView mMainLayout;
 
         @BindView(R.id.recipe_img)
-        ImageView mRecipieImage;
+        ImageView mRecipeImage;
 
         @BindView(R.id.recipe_name_tv)
         TextView mRecipeTextView;
@@ -73,7 +77,7 @@ public class BasicRecipeDescriptionAdapter extends RecyclerView.Adapter<BasicRec
         TextView mRecipeServingsTextView;
 
 
-        public RecipieViewHolder(View view){
+        public RecipeViewHolder(View view){
             super(view);
             ButterKnife.bind(this,view);
             mMainLayout.setOnClickListener(this);
@@ -81,16 +85,13 @@ public class BasicRecipeDescriptionAdapter extends RecyclerView.Adapter<BasicRec
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context,RecipeMasterActivity.class);
-            intent.putExtra(Intent.EXTRA_TEXT,mRecipies.get(getAdapterPosition()).getId());
-            context.startActivity(intent);
-
+            listener.onClick(mRecipies.get(getAdapterPosition()));
         }
 
         public void bind(int position){
             Recipe recipe = mRecipies.get(position);
             if(recipe.hasImage()){
-                Glide.with(context).load(recipe.getImage()).into(mRecipieImage);
+                Glide.with(context).load(recipe.getImage()).into(mRecipeImage);
             }
 
             mRecipeTextView.setText(recipe.getName());

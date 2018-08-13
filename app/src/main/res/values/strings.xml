@@ -9,6 +9,10 @@
     <string name="ui.recipe.master.ingredients">Ingredients</string>
     <string name="ui.recipe.master.steps">Follow steps</string>
 
+    <string name="widget.recipeingredients">Recipe ingredients</string>
+    <string name="widget.noingredients">You didn\'t check any recipe yet</string>
 
     <string name="ui.recipe.main.servings"> %1$s portions</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
@@ -14,6 +15,15 @@ import java.util.List;
 
 @Dao
 public interface RecipeDao {
+
+    @Update
+    void updateRecipe(Recipe recipe);
+
+    @Query("SELECT * FROM ingredients WHERE ingredients.recipe_id = :id")
+    List<RecipeIngredients> getListOfIngredientsFromID(int id);
+
+    @Query("SELECT recipe.id FROM recipe ORDER BY last_visit DESC LIMIT 1 ")
+    int getLastRecipeID();
 
     @Query("SELECT * FROM recipe ")
     LiveData<List<Recipe>> getRecipies();
@@ -32,8 +42,5 @@ public interface RecipeDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAllSteps(List<RecipeStep> steps);
-
-
-
 
 }
