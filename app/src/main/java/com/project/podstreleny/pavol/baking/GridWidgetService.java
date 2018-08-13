@@ -32,6 +32,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         mDatabase = BakingDatabase.getDatabaseInstance(application);
         context = application;
     }
+    
 
 
     @Override

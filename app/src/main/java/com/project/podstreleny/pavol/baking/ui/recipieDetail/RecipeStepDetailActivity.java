@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
@@ -54,6 +55,10 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
                 if (actionBar != null){
                     actionBar.hide();
                 }
+                View decorView = getWindow().getDecorView();
+                // Hide the status bar.
+                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
             }
         }
 
