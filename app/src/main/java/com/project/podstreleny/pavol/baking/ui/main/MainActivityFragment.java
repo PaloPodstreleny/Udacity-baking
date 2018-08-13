@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
 import com.project.podstreleny.pavol.baking.service.Resource;
-import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeMasterActivity;
+import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeDetailActivity;
 import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 import com.project.podstreleny.pavol.baking.viewModels.RecipeViewModel;
 
@@ -151,7 +151,7 @@ public class MainActivityFragment extends Fragment implements RecipeAdapter.OnRe
     @Override
     public void onClick(@NonNull Recipe recipe) {
         viewModel.updateRecipeTimeStamp(recipe);
-        Intent intent = new Intent(getActivity(), RecipeMasterActivity.class);
+        Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
         intent.putExtra(BundleHelper.RECIPE_ID, recipe.getId());
         startActivity(intent);
     }

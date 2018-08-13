@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.recipieMaster.RecipeMasterActivity" />
-        <activity android:name=".ui.recipieDetail.RecipeDetailActivity" />
+        <activity android:name=".ui.recipieMaster.RecipeDetailActivity" />
+        <activity android:name=".ui.recipieDetail.RecipeStepDetailActivity" />
         <activity android:name=".SingleFragmentActivity" />
 
         <receiver android:name=".BakingWidgetProvider">

@@ -5,11 +5,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 
-import com.project.podstreleny.pavol.baking.ui.main.MainActivity;
-import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeMasterActivity;
+import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeDetailActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -34,7 +32,7 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         views.setRemoteAdapter(R.id.widget_gv,intent);
 
         //OnCLick
-        Intent appIntent = new Intent(context, RecipeMasterActivity.class);
+        Intent appIntent = new Intent(context, RecipeDetailActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context,0,appIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.widget_gv,appPendingIntent);
 

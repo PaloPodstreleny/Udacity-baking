@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AdapterIngredients extends RecyclerView.Adapter<AdapterIngredients.IngredientsViewHolder> {
+public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder> {
 
 
     private List<RecipeIngredients> mIngredients;

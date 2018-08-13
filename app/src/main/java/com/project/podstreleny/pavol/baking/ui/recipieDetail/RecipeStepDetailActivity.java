@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeDetailActivity extends AppCompatActivity {
+public class RecipeStepDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;

@@ -7,7 +7,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeMasterActivity;
+import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeDetailActivity;
 import com.project.podstreleny.pavol.baking.util.TestUtil;
 
 import org.hamcrest.Matchers;
@@ -36,7 +36,7 @@ public class MasterRecipePageInstrumentedTest {
 
 
     @Rule
-    public ActivityTestRule<RecipeMasterActivity> masterActivityActivityTestRule = new ActivityTestRule<>(RecipeMasterActivity.class);
+    public ActivityTestRule<RecipeDetailActivity> masterActivityActivityTestRule = new ActivityTestRule<>(RecipeDetailActivity.class);
 
     @Before
     public void init() {

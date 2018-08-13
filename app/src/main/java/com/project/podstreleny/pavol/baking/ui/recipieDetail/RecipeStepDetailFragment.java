@@ -33,7 +33,7 @@ import com.project.podstreleny.pavol.baking.viewModels.RecipeDetailViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeDetailFragment extends Fragment {
+public class RecipeStepDetailFragment extends Fragment {
 
     private static final String USER_AGENT = "recipe";
 

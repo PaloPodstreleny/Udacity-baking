@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
@@ -32,7 +31,7 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         final Bundle bundle = new Bundle();
         bundle.putParcelable(Intent.EXTRA_TEXT,steps.get(position));
-        final RecipeDetailFragment fragment = new RecipeDetailFragment();
+        final RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
         fragment.setArguments(bundle);
         return fragment;
     }

@@ -1,12 +1,11 @@
 package com.project.podstreleny.pavol.baking;
 
-import android.arch.lifecycle.ViewModel;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 
-import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeDetailActivity;
+import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeStepDetailActivity;
 import com.project.podstreleny.pavol.baking.viewModels.RecipeDetailViewModel;
 
 import org.junit.Before;
@@ -23,7 +22,7 @@ public class DetailRecipeInstrumentedTest {
 
 
     @Rule
-    public ActivityTestRule<RecipeDetailActivity> activityActivityTestRule = new ActivityTestRule<>(RecipeDetailActivity.class);
+    public ActivityTestRule<RecipeStepDetailActivity> activityActivityTestRule = new ActivityTestRule<>(RecipeStepDetailActivity.class);
 
     private RecipeDetailViewModel viewModel;
 

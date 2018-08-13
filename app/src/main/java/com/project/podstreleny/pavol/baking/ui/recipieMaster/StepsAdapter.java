@@ -11,26 +11,27 @@ import android.widget.TextView;
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.AdapterViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.AdapterViewHolder> {
 
     private static final int OFFSET = 1;
-    private ArrayList<RecipeStep> mSteps;
+    private List<RecipeStep> mSteps;
     private OnRecipeStepClickListener mListener;
 
     public interface OnRecipeStepClickListener {
         void onClick(RecipeStep recipeStep, int position);
     }
 
-    public AdapterSteps(OnRecipeStepClickListener listener) {
+    public StepsAdapter(OnRecipeStepClickListener listener) {
         mListener = listener;
     }
 
     public ArrayList<RecipeStep> getSteps() {
-        return mSteps;
+        return (ArrayList) mSteps;
     }
 
     @NonNull
@@ -55,7 +56,7 @@ public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.AdapterViewH
         return mSteps.size();
     }
 
-    public void swapData(ArrayList<RecipeStep> steps) {
+    public void swapData(List<RecipeStep> steps) {
         mSteps = steps;
         notifyDataSetChanged();
     }

@@ -16,8 +16,8 @@ import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.SingleFragmentActivity;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
-import com.project.podstreleny.pavol.baking.ui.recipieMaster.AdapterSteps;
-import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeMasterFragment;
+import com.project.podstreleny.pavol.baking.ui.recipieMaster.StepsAdapter;
+import com.project.podstreleny.pavol.baking.ui.recipieMaster.RecipeDetailFragment;
 import com.project.podstreleny.pavol.baking.util.EspressoTestUtil;
 import com.project.podstreleny.pavol.baking.util.FakeGenerator;
 import com.project.podstreleny.pavol.baking.util.ViewModelFactoryProvider;
@@ -80,7 +80,7 @@ public class MasterFragmentTest {
         fakeIngredients.addAll(FakeGenerator.generateFakeIngredients(10,RECIPE_ID));
         fakeSteps.addAll(FakeGenerator.generateFakeSteps(10,RECIPE_ID));
 
-        final TestMasterDetailFragment fragment = new TestMasterDetailFragment();
+        final TestDetailDetailFragment fragment = new TestDetailDetailFragment();
         final Bundle bundle = new Bundle();
         bundle.putInt(BundleHelper.RECIPE_ID,RECIPE_ID);
         fragment.setArguments(bundle);
@@ -114,8 +114,8 @@ public class MasterFragmentTest {
         mRecipeSteps.postValue(fakeSteps);
 
         onView(withId(R.id.steps_rv)).
-                perform(RecyclerViewActions.<AdapterSteps.AdapterViewHolder>actionOnItemAtPosition(1,click()));
-        intended(allOf(hasExtra(Intent.EXTRA_TEXT,specialBundle),hasPackage("com.project.podstreleny.pavol.baking/.ui.recipieDetail.RecipeDetailActivity")));
+                perform(RecyclerViewActions.<StepsAdapter.AdapterViewHolder>actionOnItemAtPosition(1,click()));
+        intended(allOf(hasExtra(Intent.EXTRA_TEXT,specialBundle),hasPackage("com.project.podstreleny.pavol.baking/.ui.recipieDetail.RecipeStepDetailActivity")));
     }
 
 
@@ -125,7 +125,7 @@ public class MasterFragmentTest {
 
 
 
-    public static class TestMasterDetailFragment extends RecipeMasterFragment{
+    public static class TestDetailDetailFragment extends RecipeDetailFragment {
 
     }
 
