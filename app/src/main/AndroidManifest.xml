@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.recipieMaster.RecipeDetailActivity" />
-        <activity android:name=".ui.recipieDetail.RecipeStepDetailActivity" />
-        <activity android:name=".SingleFragmentActivity" />
+        <activity android:name=".ui.recipeStepDetail.RecipeStepDetailActivity" />
+        <activity android:name=".SingleFragmentActivityTestPurpose" />
 
         <receiver android:name=".BakingWidgetProvider">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.project.podstreleny.pavol.baking.ui.recipieDetail;
+package com.project.podstreleny.pavol.baking.ui.recipeStepDetail;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;

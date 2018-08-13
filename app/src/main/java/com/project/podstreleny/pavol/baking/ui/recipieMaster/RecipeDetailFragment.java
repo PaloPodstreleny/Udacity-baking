@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.project.podstreleny.pavol.baking.R;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
-import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeStepDetailActivity;
+import com.project.podstreleny.pavol.baking.ui.recipeStepDetail.RecipeStepDetailActivity;
 import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 import com.project.podstreleny.pavol.baking.viewModels.RecipeDetailViewModel;
 

@@ -3,7 +3,6 @@ package com.project.podstreleny.pavol.baking.ui;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.arch.lifecycle.MutableLiveData;
-import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -12,15 +11,16 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.project.podstreleny.pavol.baking.R;
-import com.project.podstreleny.pavol.baking.SingleFragmentActivity;
+import com.project.podstreleny.pavol.baking.SingleFragmentActivityTestPurpose;
 import com.project.podstreleny.pavol.baking.db.entities.Recipe;
 import com.project.podstreleny.pavol.baking.service.Resource;
-import com.project.podstreleny.pavol.baking.ui.main.RecipeAdapter;
 import com.project.podstreleny.pavol.baking.ui.main.MainActivityFragment;
+import com.project.podstreleny.pavol.baking.ui.main.RecipeAdapter;
 import com.project.podstreleny.pavol.baking.util.EspressoTestUtil;
 import com.project.podstreleny.pavol.baking.util.FakeGenerator;
 import com.project.podstreleny.pavol.baking.util.TestUtil;
 import com.project.podstreleny.pavol.baking.util.ViewModelFactoryProvider;
+import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 import com.project.podstreleny.pavol.baking.viewModels.RecipeViewModel;
 
 import org.hamcrest.Matcher;
@@ -54,10 +54,10 @@ import static org.mockito.Mockito.when;
 @LargeTest
 public class MainPageFragmentTest {
 
-    private static final int CURRENT_POSITION = 8;
+    private static final int CURRENT_POSITION = 1;
 
     @Rule
-    public IntentsTestRule<SingleFragmentActivity> mainIntentsTestRule = new IntentsTestRule<>(SingleFragmentActivity.class);
+    public IntentsTestRule<SingleFragmentActivityTestPurpose> mainIntentsTestRule = new IntentsTestRule<>(SingleFragmentActivityTestPurpose.class);
 
     private RecipeViewModel mViewModel;
     private final MutableLiveData<Resource<List<Recipe>>> mRecipes = new MutableLiveData<>();
@@ -74,7 +74,6 @@ public class MainPageFragmentTest {
         //Create fake response
         fakeRecipes = new ArrayList<>();
         fakeRecipes.addAll(FakeGenerator.generateFakeRecipes(10));
-
 
         final TestMainActivityFragment fragment = new TestMainActivityFragment();
         fragment.setViewModerProvider(ViewModelFactoryProvider.getViewModelFactory(mViewModel));
@@ -108,7 +107,7 @@ public class MainPageFragmentTest {
 
         //Click do nothing and return success
         onView(withId(R.id.retry_btn)).perform(click());
-        doNothing().when(mViewModel).reFatchData();
+        doNothing().when(mViewModel).reFetchData();
 
         //Check if new data are correctly displayed
         displayDataTest();
@@ -119,7 +118,7 @@ public class MainPageFragmentTest {
     public void retryButtonGetError() {
         showErrorTest();
         onView(withId(R.id.retry_btn)).perform(click());
-        doNothing().when(mViewModel).reFatchData();
+        doNothing().when(mViewModel).reFetchData();
         showErrorTest();
     }
 
@@ -147,8 +146,9 @@ public class MainPageFragmentTest {
         displayDataTest();
         final Recipe recipe = fakeRecipes.get(CURRENT_POSITION);
         onView(withId(R.id.recipe_rv))
+                .perform(RecyclerViewActions.<RecipeAdapter.RecipeViewHolder>scrollToPosition(CURRENT_POSITION))
                 .perform(RecyclerViewActions.<RecipeAdapter.RecipeViewHolder>actionOnItemAtPosition(CURRENT_POSITION, click()));
-        intended(allOf(hasExtra(Intent.EXTRA_TEXT, recipe.getId())));
+        intended(allOf(hasExtra(BundleHelper.RECIPE_ID, recipe.getId())));
     }
 
     @Test

@@ -6,7 +6,7 @@ import com.project.podstreleny.pavol.baking.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String HAS_EXTRA = "has_extra";
+    public static final String HAS_EXTRA = "has_extra";
     private static final String FLAG = MainActivity.class.getSimpleName();
 
     @Override

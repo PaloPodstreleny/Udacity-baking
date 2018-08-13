@@ -1,6 +1,7 @@
-package com.project.podstreleny.pavol.baking.ui.recipieDetail;
+package com.project.podstreleny.pavol.baking.ui.recipeStepDetail;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,13 +51,12 @@ public class RecipeStepDetailFragment extends Fragment {
     @BindView(R.id.description_tv)
     TextView mDescriptionTextView;
 
+    private ViewModelProvider.Factory factory;
     private SimpleExoPlayer mExoPlayer;
     private boolean isMobile;
     private int mRecipeWindow;
     private long mRecipeSeek;
     private RecipeStep mStep;
-
-
 
     @Nullable
     @Override
@@ -89,7 +90,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
         //Check if there is tablet version
         if (!isMobile) {
-            final RecipeDetailViewModel viewModel =  ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
+            final RecipeDetailViewModel viewModel =  ViewModelProviders.of(getActivity(),factory).get(RecipeDetailViewModel.class);
             viewModel.getActualRecipeStep().observe(this, new Observer<RecipeStep>() {
                 @Override
                 public void onChanged(@Nullable RecipeStep step) {
@@ -213,5 +214,10 @@ public class RecipeStepDetailFragment extends Fragment {
         outState.putLong(RECIPE_VIDEO_SEEK, mRecipeSeek);
         outState.putInt(RECIPE_VIDEO_WIND0W, mRecipeWindow);
         outState.putBoolean(ROTATED,false);
+    }
+
+    @VisibleForTesting
+    public void setFactory(ViewModelProvider.Factory factory){
+        this.factory = factory;
     }
 }

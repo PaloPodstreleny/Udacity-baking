@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.project.podstreleny.pavol.baking.SingleFragmentActivity;
+import com.project.podstreleny.pavol.baking.SingleFragmentActivityTestPurpose;
 
 public class EspressoTestUtil {
 
 
-    public static void disableProgressBarAnimations(ActivityTestRule<SingleFragmentActivity> testRule) {
+    public static void disableProgressBarAnimations(ActivityTestRule<SingleFragmentActivityTestPurpose> testRule) {
         testRule.getActivity().getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
 
             @Override

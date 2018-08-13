@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.project.podstreleny.pavol.baking.R;
-import com.project.podstreleny.pavol.baking.ui.recipieDetail.RecipeStepDetailFragment;
+import com.project.podstreleny.pavol.baking.ui.recipeStepDetail.RecipeStepDetailFragment;
 import com.project.podstreleny.pavol.baking.utils.BundleHelper;
 
 public class RecipeDetailActivity extends AppCompatActivity {
