@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextPrimary"
-        android:padding="8dp"
+        android:padding="@dimen/inner_padding_small"
         tools:text="8 grams of sushi"
         />
 

@@ -50,9 +50,9 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(mViewPager);
 
-            }else {
+            } else {
                 final ActionBar actionBar = getSupportActionBar();
-                if (actionBar != null){
+                if (actionBar != null) {
                     actionBar.hide();
                 }
                 View decorView = getWindow().getDecorView();

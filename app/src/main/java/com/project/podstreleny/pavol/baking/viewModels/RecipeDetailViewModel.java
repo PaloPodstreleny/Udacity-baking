@@ -8,7 +8,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 
-import com.project.podstreleny.pavol.baking.db.entities.Recipe;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeIngredients;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 import com.project.podstreleny.pavol.baking.repositories.RecipeDetailRepository;
@@ -34,7 +33,7 @@ public class RecipeDetailViewModel extends AndroidViewModel {
     private final LiveData<List<RecipeStep>> steps = Transformations.switchMap(movieID, new Function<Integer, LiveData<List<RecipeStep>>>() {
         @Override
         public LiveData<List<RecipeStep>> apply(Integer input) {
-                return   mDetailRepository.getRecipeStepsByRecipeID(input);
+            return mDetailRepository.getRecipeStepsByRecipeID(input);
         }
     });
 
@@ -43,27 +42,27 @@ public class RecipeDetailViewModel extends AndroidViewModel {
         mDetailRepository = RecipeDetailRepository.getInstance(application);
     }
 
-    public void setActualStep(RecipeStep recipeStep){
+    public void setActualStep(RecipeStep recipeStep) {
         selectedRecipeStep.setValue(recipeStep);
     }
 
-    public void setInitialRecipeSeek(long seek){
+    public void setInitialRecipeSeek(long seek) {
         initialSeek.setValue(seek);
     }
 
-    public LiveData<Long> getInitialSeek(){
+    public LiveData<Long> getInitialSeek() {
         return initialSeek;
     }
 
-    public LiveData<RecipeStep> getActualRecipeStep(){
+    public LiveData<RecipeStep> getActualRecipeStep() {
         return selectedRecipeStep;
     }
 
-    public void setMovieID(int id){
+    public void setMovieID(int id) {
         movieID.setValue(id);
     }
 
-    public LiveData<List<RecipeIngredients>> getIngredients(){
+    public LiveData<List<RecipeIngredients>> getIngredients() {
         return ingredients;
     }
 

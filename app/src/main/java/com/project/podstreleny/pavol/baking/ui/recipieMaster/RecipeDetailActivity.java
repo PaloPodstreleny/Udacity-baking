@@ -21,7 +21,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_master);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             return;
         }
 
@@ -29,11 +29,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         //If intent is null or intent does not have extra RECIPE_ID return from method;
-        if(intent == null || !intent.hasExtra(BundleHelper.RECIPE_ID)){
+        if (intent == null || !intent.hasExtra(BundleHelper.RECIPE_ID)) {
             return;
         }
 
-        final int value = intent.getIntExtra(BundleHelper.RECIPE_ID,-1);
+        final int value = intent.getIntExtra(BundleHelper.RECIPE_ID, -1);
 
         final FragmentManager manager = getSupportFragmentManager();
         final RecipeDetailFragment fragment = new RecipeDetailFragment();
@@ -48,10 +48,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
             bundle.putBoolean(BundleHelper.TABLE_VERSION, true);
 
             RecipeStepDetailFragment detailFragment = new RecipeStepDetailFragment();
-            manager.beginTransaction().add(R.id.fragmentDetail, detailFragment,DETAIL_FLAG).commit();
+            manager.beginTransaction().add(R.id.fragmentDetail, detailFragment, DETAIL_FLAG).commit();
         }
         fragment.setArguments(bundle);
-        manager.beginTransaction().add(R.id.fragmetMaster, fragment,MASTER_FLAG).commit();
+        manager.beginTransaction().add(R.id.fragmetMaster, fragment, MASTER_FLAG).commit();
 
 
     }
@@ -59,6 +59,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(HAS_EXTRA,true);
+        outState.putBoolean(HAS_EXTRA, true);
     }
 }

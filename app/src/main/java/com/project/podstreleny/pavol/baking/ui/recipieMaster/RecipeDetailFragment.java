@@ -42,7 +42,7 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnRec
     private Integer recipeID;
     private RecipeDetailViewModel viewModel;
 
-    private boolean isMobile = true;
+    private boolean isMobile;
     private int mPosition;
     private ViewModelProvider.Factory factory;
 
@@ -84,7 +84,7 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnRec
         mRecyclerViewSteps.setHasFixedSize(true);
         mRecyclerViewSteps.setAdapter(mStepsAdapter);
 
-        viewModel = ViewModelProviders.of(getActivity(),factory).get(RecipeDetailViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity(), factory).get(RecipeDetailViewModel.class);
 
         if (recipeID != null) {
             viewModel.setMovieID(recipeID);
@@ -95,7 +95,7 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnRec
             public void onChanged(@Nullable List<RecipeIngredients> ingredients) {
                 if (ingredients != null && !ingredients.isEmpty()) {
                     mIngredientsAdapter.swapData(ingredients);
-                }else {
+                } else {
                     mRecyclerViewIngredients.setVisibility(View.GONE);
                 }
             }
@@ -107,7 +107,7 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnRec
                 if (recipeSteps != null && !recipeSteps.isEmpty()) {
                     mStepsAdapter.swapData(recipeSteps);
                     viewModel.setActualStep(recipeSteps.get(mPosition));
-                }else {
+                } else {
                     mRecyclerViewSteps.setVisibility(View.GONE);
                 }
             }
@@ -139,7 +139,7 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnRec
     }
 
     @VisibleForTesting
-    public void setFactory(ViewModelProvider.Factory factory){
+    public void setFactory(ViewModelProvider.Factory factory) {
         this.factory = factory;
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     private static final int OFFSET = 1;
     private List<RecipeStep> steps;
 
-    public TabsPagerAdapter(FragmentManager manager, List<RecipeStep> recipeSteps){
+    public TabsPagerAdapter(FragmentManager manager, List<RecipeStep> recipeSteps) {
         super(manager);
         this.steps = recipeSteps;
     }
@@ -29,7 +30,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         final Bundle bundle = new Bundle();
-        bundle.putParcelable(Intent.EXTRA_TEXT,steps.get(position));
+        bundle.putParcelable(Intent.EXTRA_TEXT, steps.get(position));
         final RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -39,7 +40,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return STEP + " " +(position + OFFSET);
+        return STEP + " " + (position + OFFSET);
     }
 
     /**

@@ -25,20 +25,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private final Context context;
     private List<Recipe> mRecipies;
     private OnRecipeClickListener listener;
-    
-    public RecipeAdapter(Context context, OnRecipeClickListener listener){
+
+    public RecipeAdapter(Context context, OnRecipeClickListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
-    public interface OnRecipeClickListener{
+    public interface OnRecipeClickListener {
         void onClick(@NonNull Recipe recipe);
     }
 
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.basic_recipie_list_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.basic_recipie_list_item, parent, false);
         return new RecipeViewHolder(view);
     }
 
@@ -51,18 +51,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public int getItemCount() {
-        if(mRecipies == null){
+        if (mRecipies == null) {
             return 0;
         }
         return mRecipies.size();
     }
 
-    public void swapData(List<Recipe> recipes){
+    public void swapData(List<Recipe> recipes) {
         this.mRecipies = recipes;
         notifyDataSetChanged();
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.main_layout_cv)
         CardView mMainLayout;
@@ -77,9 +77,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         TextView mRecipeServingsTextView;
 
 
-        public RecipeViewHolder(View view){
+        public RecipeViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
             mMainLayout.setOnClickListener(this);
         }
 
@@ -91,9 +91,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             }
         }
 
-        public void bind(int position){
+        public void bind(int position) {
             Recipe recipe = mRecipies.get(position);
-            if(recipe.hasImage()){
+            if (recipe.hasImage()) {
                 Glide.with(context).load(recipe.getImage()).into(mRecipeImage);
             }
 
@@ -102,8 +102,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         }
     }
-
-
 
 
 }

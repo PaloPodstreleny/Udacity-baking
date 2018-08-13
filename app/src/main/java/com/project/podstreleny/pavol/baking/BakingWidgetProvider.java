@@ -16,7 +16,6 @@ public class BakingWidgetProvider extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
         RemoteViews views = getGardenGridRemoteViews(context);
         appWidgetManager.updateAppWidget(appWidgetId,views);
     }
@@ -27,7 +26,6 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context,GridWidgetService.class);
         views.setRemoteAdapter(R.id.widget_gv,intent);
 
-        //OnCLick
         Intent appIntent = new Intent(context, RecipeDetailActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context,0,appIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.widget_gv,appPendingIntent);

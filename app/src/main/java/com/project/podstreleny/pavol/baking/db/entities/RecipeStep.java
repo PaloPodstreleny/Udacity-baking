@@ -83,17 +83,17 @@ public class RecipeStep implements Parcelable {
     }
 
     @Ignore
-    public boolean hasVideoURL(){
+    public boolean hasVideoURL() {
         return videoURL.length() > 1;
     }
 
     @Ignore
-    public boolean hasImage(){
+    public boolean hasImage() {
         return thumbnailURL.length() > 1;
     }
 
     @Ignore
-    public Uri getVideoUri(){
+    public Uri getVideoUri() {
         return Uri.parse(videoURL);
     }
 

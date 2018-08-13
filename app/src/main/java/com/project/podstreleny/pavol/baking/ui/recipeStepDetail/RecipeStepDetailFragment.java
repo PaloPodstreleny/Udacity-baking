@@ -53,7 +53,6 @@ public class RecipeStepDetailFragment extends Fragment {
 
     private ViewModelProvider.Factory factory;
     private SimpleExoPlayer mExoPlayer;
-    private boolean isMobile;
     private int mRecipeWindow;
     private long mRecipeSeek;
     private RecipeStep mStep;
@@ -69,6 +68,8 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        final boolean isMobile;
 
         final Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(Intent.EXTRA_TEXT)) {
@@ -90,7 +91,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
         //Check if there is tablet version
         if (!isMobile) {
-            final RecipeDetailViewModel viewModel =  ViewModelProviders.of(getActivity(),factory).get(RecipeDetailViewModel.class);
+            final RecipeDetailViewModel viewModel = ViewModelProviders.of(getActivity(), factory).get(RecipeDetailViewModel.class);
             viewModel.getActualRecipeStep().observe(this, new Observer<RecipeStep>() {
                 @Override
                 public void onChanged(@Nullable RecipeStep step) {
@@ -213,11 +214,11 @@ public class RecipeStepDetailFragment extends Fragment {
         releasePlayer();
         outState.putLong(RECIPE_VIDEO_SEEK, mRecipeSeek);
         outState.putInt(RECIPE_VIDEO_WIND0W, mRecipeWindow);
-        outState.putBoolean(ROTATED,false);
+        outState.putBoolean(ROTATED, false);
     }
 
     @VisibleForTesting
-    public void setFactory(ViewModelProvider.Factory factory){
+    public void setFactory(ViewModelProvider.Factory factory) {
         this.factory = factory;
     }
 }

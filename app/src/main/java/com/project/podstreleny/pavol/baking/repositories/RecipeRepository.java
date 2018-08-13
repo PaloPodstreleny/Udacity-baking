@@ -23,7 +23,6 @@ import com.project.podstreleny.pavol.baking.service.Resource;
 import com.project.podstreleny.pavol.baking.service.responses.ApiResponse;
 import com.project.podstreleny.pavol.baking.service.retrofit.RetrofitProvider;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class RecipeRepository {
@@ -37,7 +36,7 @@ public class RecipeRepository {
     private BakingEndPoint mBakingEndpoint;
     private AppExecutor mExecutor;
 
-    private RecipeRepository(Context context, BakingDatabase database, BakingEndPoint bakingEndPoint, AppExecutor executor){
+    private RecipeRepository(Context context, BakingDatabase database, BakingEndPoint bakingEndPoint, AppExecutor executor) {
         this.context = context;
         mDatabase = database;
         mRecipeDao = database.recipeDao();
@@ -45,8 +44,8 @@ public class RecipeRepository {
         mExecutor = executor;
     }
 
-    public static RecipeRepository getInstance(Application application){
-        if(INSTANCE == null){
+    public static RecipeRepository getInstance(Application application) {
+        if (INSTANCE == null) {
             synchronized (RecipeRepository.class) {
                 INSTANCE = new RecipeRepository(
                         application,
@@ -59,21 +58,21 @@ public class RecipeRepository {
         return INSTANCE;
     }
 
-    public LiveData<Resource<List<Recipe>>> getRecepies(){
+    public LiveData<Resource<List<Recipe>>> getRecepies() {
 
-        return new NetworkBoundResource<List<Recipe>,List<Recipe>>(mExecutor){
+        return new NetworkBoundResource<List<Recipe>, List<Recipe>>(mExecutor) {
             @Override
             protected void saveCallResult(@NonNull List<Recipe> item) {
                 mDatabase.beginTransaction();
                 mRecipeDao.insertAllRecipies(item);
-                for (Recipe r : item){
+                for (Recipe r : item) {
                     r.setLastVisit(System.currentTimeMillis());
 
-                    for (RecipeIngredients ingredients : r.getIngredients()){
+                    for (RecipeIngredients ingredients : r.getIngredients()) {
                         ingredients.setRecipeID(r.getId());
                     }
 
-                    for (RecipeStep step : r.getSteps()){
+                    for (RecipeStep step : r.getSteps()) {
                         step.setRecipeID(r.getId());
                     }
 
@@ -87,7 +86,7 @@ public class RecipeRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<Recipe> data) {
-               return  (data == null || data.isEmpty());
+                return (data == null || data.isEmpty());
             }
 
             @NonNull
@@ -104,7 +103,7 @@ public class RecipeRepository {
 
             @Override
             protected void onFetchFailed() {
-                Log.e(LOG,"Problem with fetching data!");
+                Log.e(LOG, "Problem with fetching data!");
             }
 
 
@@ -112,7 +111,7 @@ public class RecipeRepository {
     }
 
 
-    public void updateRecipeTimeStamp(final Recipe recipe){
+    public void updateRecipeTimeStamp(final Recipe recipe) {
         mExecutor.diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -121,12 +120,11 @@ public class RecipeRepository {
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
                 int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, BakingWidgetProvider.class));
                 manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_gv);
-                BakingWidgetProvider.onUpdateWidget(context,manager,appWidgetIds);
+                BakingWidgetProvider.onUpdateWidget(context, manager, appWidgetIds);
             }
         });
 
     }
-
 
 
 }
