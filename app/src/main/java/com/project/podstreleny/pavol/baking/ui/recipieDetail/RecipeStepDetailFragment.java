@@ -36,6 +36,9 @@ import butterknife.ButterKnife;
 public class RecipeStepDetailFragment extends Fragment {
 
     private static final String USER_AGENT = "recipe";
+    private static final String RECIPE_VIDEO_WIND0W = "RECIPE_WINDOW";
+    private static final String RECIPE_VIDEO_SEEK = "RECIPE_VIDEO_SEEK";
+    private static final String ROTATED = "ROTATED";
 
     @BindView(R.id.playerView)
     PlayerView mPlayerView;
@@ -46,9 +49,12 @@ public class RecipeStepDetailFragment extends Fragment {
     @BindView(R.id.description_tv)
     TextView mDescriptionTextView;
 
-
     private SimpleExoPlayer mExoPlayer;
-    private boolean isMobile = true;
+    private boolean isMobile;
+    private int mRecipeWindow;
+    private long mRecipeSeek;
+    private RecipeStep mStep;
+
 
 
     @Nullable
@@ -56,44 +62,50 @@ public class RecipeStepDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
         ButterKnife.bind(this, view);
-
-        final Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey(Intent.EXTRA_TEXT)) {
-            isMobile = true;
-        } else {
-            isMobile = false;
-        }
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //Check if Fragment contains some arguments -- Arguments are sut just when we are using mobile version of app
-        if (!isMobile) {
-            // Table version
 
-            final RecipeDetailViewModel viewModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
+        final Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(Intent.EXTRA_TEXT)) {
+            mStep = bundle.getParcelable(Intent.EXTRA_TEXT);
+            isMobile = true;
+        } else {
+            isMobile = false;
+        }
+
+
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(RECIPE_VIDEO_WIND0W)
+                && savedInstanceState.containsKey(RECIPE_VIDEO_SEEK)
+                ) {
+            mRecipeWindow = savedInstanceState.getInt(RECIPE_VIDEO_WIND0W);
+            mRecipeSeek = savedInstanceState.getLong(RECIPE_VIDEO_SEEK);
+
+        }
+
+        //Check if there is tablet version
+        if (!isMobile) {
+            final RecipeDetailViewModel viewModel =  ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
             viewModel.getActualRecipeStep().observe(this, new Observer<RecipeStep>() {
                 @Override
                 public void onChanged(@Nullable RecipeStep step) {
-                    if (step != null) {
-                        setDescriptionView(step.getDescription());
-                        if (step.hasVideoURL()) {
-                            initializeExoPlayer(step.getVideoUri());
-                        } else if (step.hasImage()) {
-                            showThumbnail(step.getThumbnailURL());
-                        } else {
-                            hideImageAndPlayer();
-                        }
+                    mStep = step;
+                    showProperView();
+                }
+            });
 
-                    }
+            viewModel.getInitialSeek().observe(this, new Observer<Long>() {
+                @Override
+                public void onChanged(@Nullable Long value) {
+                    mRecipeSeek = value;
                 }
             });
         }
     }
-
 
     private void hideImageAndPlayer() {
         mPlayerView.setVisibility(View.GONE);
@@ -118,34 +130,53 @@ public class RecipeStepDetailFragment extends Fragment {
                     new DefaultTrackSelector(),
                     new DefaultLoadControl());
             mPlayerView.setPlayer(mExoPlayer);
-
             mExoPlayer.setPlayWhenReady(false);
-            mExoPlayer.seekTo(0, 0);
 
-            MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
-            mExoPlayer.prepare(mediaSource, true, false);
-
+            preparePlayerWithActualSource(videoUri);
         } else {
-            MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
-            mExoPlayer.prepare(mediaSource, true, false);
+            preparePlayerWithActualSource(videoUri);
         }
+    }
+
+    private void preparePlayerWithActualSource(Uri videoUri) {
+        mExoPlayer.seekTo(mRecipeWindow, mRecipeSeek);
+        MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(USER_AGENT)).createMediaSource(videoUri);
+        mExoPlayer.prepare(mediaSource, false, false);
     }
 
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
-            mExoPlayer.stop();
+            mRecipeSeek = mExoPlayer.getCurrentPosition();
+            mRecipeWindow = mExoPlayer.getCurrentWindowIndex();
             mExoPlayer.release();
             mExoPlayer = null;
         }
     }
 
+    private void showProperView() {
+        if (mStep != null) {
+            setDescriptionView(mStep.getDescription());
+            if (mStep.hasVideoURL()) {
+                initializeExoPlayer(mStep.getVideoUri());
+            } else if (mStep.hasImage()) {
+                showThumbnail(mStep.getThumbnailURL());
+            } else {
+                hideImageAndPlayer();
+            }
+        }
+    }
+
+
+    private void setDescriptionView(String text) {
+        mDescriptionTextView.setText(text);
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         if (Util.SDK_INT > 23) {
-            getDataAndInitPlayer();
+            showProperView();
         }
     }
 
@@ -153,7 +184,7 @@ public class RecipeStepDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
-            getDataAndInitPlayer();
+            showProperView();
         }
     }
 
@@ -163,7 +194,6 @@ public class RecipeStepDetailFragment extends Fragment {
         super.onPause();
         if (Util.SDK_INT <= 23) {
             releasePlayer();
-
         }
     }
 
@@ -174,32 +204,14 @@ public class RecipeStepDetailFragment extends Fragment {
         if (Util.SDK_INT > 23) {
             releasePlayer();
         }
-
     }
 
-
-    private void getDataAndInitPlayer() {
-        final Bundle bundle = getArguments();
-        if (bundle != null) {
-            if (bundle.containsKey(Intent.EXTRA_TEXT)) {
-                final RecipeStep step = bundle.getParcelable(Intent.EXTRA_TEXT);
-                if (step != null) {
-                    setDescriptionView(step.getDescription());
-                    if (step.hasVideoURL()) {
-                        initializeExoPlayer(step.getVideoUri());
-                    } else if (step.hasImage()) {
-                        showThumbnail(step.getThumbnailURL());
-                    } else {
-                        hideImageAndPlayer();
-                    }
-
-                }
-            }
-        }
-    }
-
-
-    private void setDescriptionView(String text) {
-        mDescriptionTextView.setText(text);
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        releasePlayer();
+        outState.putLong(RECIPE_VIDEO_SEEK, mRecipeSeek);
+        outState.putInt(RECIPE_VIDEO_WIND0W, mRecipeWindow);
+        outState.putBoolean(ROTATED,false);
     }
 }

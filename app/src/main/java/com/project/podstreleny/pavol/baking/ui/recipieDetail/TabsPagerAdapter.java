@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-
+import android.support.v4.app.FragmentPagerAdapter;
 import com.project.podstreleny.pavol.baking.db.entities.RecipeStep;
 
 import java.util.List;
 
-public class TabsPagerAdapter extends FragmentStatePagerAdapter {
+public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     private static final String STEP = "Step";
     private static final int OFFSET = 1;
@@ -50,4 +49,6 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return steps.size();
     }
+
+
 }

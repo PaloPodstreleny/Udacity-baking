@@ -17,9 +17,11 @@ import java.util.List;
 
 public class RecipeDetailViewModel extends AndroidViewModel {
 
+
     private final RecipeDetailRepository mDetailRepository;
     private MutableLiveData<Integer> movieID = new MutableLiveData<>();
     private MutableLiveData<RecipeStep> selectedRecipeStep = new MutableLiveData<>();
+    private MutableLiveData<Long> initialSeek = new MutableLiveData<>();
 
 
     private final LiveData<List<RecipeIngredients>> ingredients = Transformations.switchMap(movieID, new Function<Integer, LiveData<List<RecipeIngredients>>>() {
@@ -45,6 +47,14 @@ public class RecipeDetailViewModel extends AndroidViewModel {
         selectedRecipeStep.setValue(recipeStep);
     }
 
+    public void setInitialRecipeSeek(long seek){
+        initialSeek.setValue(seek);
+    }
+
+    public LiveData<Long> getInitialSeek(){
+        return initialSeek;
+    }
+
     public LiveData<RecipeStep> getActualRecipeStep(){
         return selectedRecipeStep;
     }
@@ -60,4 +70,6 @@ public class RecipeDetailViewModel extends AndroidViewModel {
     public LiveData<List<RecipeStep>> getSteps() {
         return steps;
     }
+
+
 }

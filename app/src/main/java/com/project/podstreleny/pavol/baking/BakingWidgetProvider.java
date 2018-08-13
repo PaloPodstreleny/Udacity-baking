@@ -17,10 +17,6 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-//        Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
-        //int width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-
-        // Construct the RemoteViews object
         RemoteViews views = getGardenGridRemoteViews(context);
         appWidgetManager.updateAppWidget(appWidgetId,views);
     }

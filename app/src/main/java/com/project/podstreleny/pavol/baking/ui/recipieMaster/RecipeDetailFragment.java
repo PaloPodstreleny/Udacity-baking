@@ -119,6 +119,7 @@ public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnRec
     public void onClick(RecipeStep recipeStep, int position) {
         mPosition = position;
         viewModel.setActualStep(recipeStep);
+        viewModel.setInitialRecipeSeek(0);
         if (isMobile) {
             //Code for mobile version
             final Intent intent = new Intent(getContext(), RecipeStepDetailActivity.class);
