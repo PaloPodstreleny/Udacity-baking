@@ -18,5 +18,13 @@ The task was to create a Android Baking App that will allow to share recipes wit
 
 ### Homescreeen Widget
 * Application has a companion homescreen widget.
-* Widget displays ingredient list for desired recipe.
+* Widget displays ingredient list for last desired recipe.
 
+### User interface
+<details>
+  <img src="https://github.com/PaloPodstreleny/Udacity-baking/blob/master/ReadmeImages/baking-top-screen.png"/>
+  <img src="https://github.com/PaloPodstreleny/Udacity-baking/blob/master/ReadmeImages/baking-detail.png"/>
+  <img src="https://github.com/PaloPodstreleny/Udacity-baking/blob/master/ReadmeImages/baking-detail-steps.png"/>
+  <img src="https://github.com/PaloPodstreleny/Udacity-baking/blob/master/ReadmeImages/recipe-step-detail.png"/>
+  <img src="https://github.com/PaloPodstreleny/Udacity-baking/blob/master/ReadmeImages/baking-tablet-mode.png"/>
+</details>
